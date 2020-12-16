@@ -13,6 +13,21 @@
   }
 }
 
+.box{
+  margin-bottom: 60px;
+}
+.sidenav {
+  width: 180px;
+  position: fixed;
+  z-index: 1;
+  top: 175px;
+  left: 100px;
+  background: rgb(35, 21, 233);
+  color: #edf0f3;
+  overflow-x: hidden;
+  padding: 8px 0;
+}
+
 .App-header {
   background-color: #282c34;
   min-height: 100vh;

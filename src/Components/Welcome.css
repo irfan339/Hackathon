@@ -6,3 +6,28 @@
     display: inline;
     margin-left: 5px;
     } */
+
+    .sidenavwhite {
+      width: 200px;
+      position: fixed;
+      z-index: 1;
+      top: 170px;
+      left: 100px;
+      background: rgb(243, 243, 247);
+      color: #1f07f7;
+      overflow-x: hidden;
+      padding: 8px 0;
+    }
+    .blueColor{
+      color: black;
+    }
+
+    .boxwelcome{
+      margin-bottom: 60px;
+    }
+    .left{float:left;}
+    .right{float:right;}
+
+    .boxwell{
+      margin-bottom: 30px;
+    }
