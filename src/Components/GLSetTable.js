@@ -13,16 +13,36 @@ class GLSetTable extends Component{
           addTableToState:props.addTableToState
       }
     }
+    componentDidUpdate(prevProps){
+      const{stage} =this.props;
+      if(stage !== prevProps.stage)
+      {
+        this.setState({
+          stage: this.props.stage,
+          question: this.props.question,
+          rowHeadings: this.props.rowHeadings,
+          columnHeadings: this.props.columnHeadings,
+          answer:this.props.answer,
+          nextbuttonValue:this.props.nextbuttonValue,
+          addTableToState:this.props.addTableToState
+        });
+      }
+    }
     onInputChange(event) {
       const value = event.target.value.trim();
+      //console.log(value);
       const row = event.target.id.split(/_/)[0];
       const col = event.target.id.split(/_/)[1];
-      var arr = this.state.answer;
+      //console.log(row);
+      //var arr = this.state.answer.map((a)=>{return a.slice()});
+      var arr=this.state.answer;
+      //console.log(arr);
       arr[row][col]=value;
+      //console.log(arr);
       this.setState({answer: arr});
     }
     render(){
-      const{question,columnHeadings, answer,rowHeadings,stage}= this.props;
+      const{columnHeadings, answer,rowHeadings}= this.props;
       var colheadlist = [];
       colheadlist.push(<th></th>);
       colheadlist.push(<th></th>);
@@ -44,17 +64,11 @@ class GLSetTable extends Component{
       return (
         <div className="container">
           <div className="sidenavwhite">
-                    {
-                        stage==="MerchantType"? <div className="container blueColor" ref="basic">Basic Details</div>:
-                        <div className="container">Basic Details</div> 
-                    }
+                    <div className="container">Basic Details</div> 
                     <hr color="#edf0f"></hr>
                     <div className="container" >Configure Pricing Strategy</div>
                     <hr color="#edf0f"></hr>
-                    {
-                        stage==="PriceVarianceGLTable"? <div className="container blueColor">Setup GLs</div>:
-                        <div className="container">Setup GLs</div> 
-                    }
+                    <div className="container blueColor">Setup GLs</div>
                     <hr color="#edf0f"></hr>
                     <div className="container" >Finish up!</div>
             </div>
@@ -83,9 +97,6 @@ class GLSetTable extends Component{
       const ans = this.state.answer;
       const sta =this.props.stage;
       this.setState({answer: ans});
-      console.log(que);
-      console.log(ans);
-      console.log(sta);
       this.state.addTableToState({question:que, answer:ans, stage:sta});
   }
 }
