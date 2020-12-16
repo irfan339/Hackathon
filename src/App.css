@@ -24,6 +24,12 @@
   color: white;
 }
 
+.boxStyle{
+  border: 1px solid black;
+  background-color: ivory;
+}
+
+
 .App-link {
   color: #61dafb;
 }
