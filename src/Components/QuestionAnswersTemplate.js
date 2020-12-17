@@ -53,7 +53,7 @@ class QuestionAnswersTemplate extends Component{
                      </div>    
                     );
             lis.push(<br/>);
-            if(this.props.stage === "CompMatchStandard"){
+            if(this.props.stage === "MerchantType" || this.props.stage === "CompMatchStandard"){
                 lis.push(<div className="container">
                             <label className="left">{"["+this.props.description[i]+"]"}</label>
                         </div>
@@ -65,7 +65,7 @@ class QuestionAnswersTemplate extends Component{
             <div className="container">
                 <hr color="#edf0f"></hr>
                 <div className="container" >
-                    <h3 className="left ">{question}</h3> <span class="badge badge-pill badge-info small">i</span>
+                    <h3 className="left ">{question}</h3> 
                 </div>
                 <br/>
                 <div className="container">
@@ -96,8 +96,8 @@ class QuestionAnswersTemplate extends Component{
     //Completed above Radiobutton Code
     renderCheckbox(question, answers){
         var lis = [];
-        lis.push(<br/>);
         for(var i = 0; i < answers.length ; i++) {
+            lis.push(<br/>);
             lis.push(<div class="custom-control custom-checkbox left">
                         <input type="checkbox" class="custom-control-input" id={i} value={i} name="checboxes" 
                             checked={this.state.defaultCheckboxValues?this.state.defaultCheckboxValues.includes(i):false}
@@ -111,13 +111,20 @@ class QuestionAnswersTemplate extends Component{
                         <label class="custom-control-label" for={i}>{answers[i]}</label>
                      </div>    
                     );
-            lis.push(<br/>);        
+            lis.push(<br/>);  
+            if(this.props.stage === "ConfigsStandard"){
+                lis.push(<div className="container">
+                            <label className="left">{"["+this.props.description[i]+"]"}</label>
+                        </div>
+                    );
+                lis.push(<br/>);
+            }          
         }   
         return (
             <div className="container">
                 <hr color="#edf0f"></hr>
                 <div className="container">
-                    <h3 className="left">{question} ?</h3>   
+                    <h3 className="left">{question}</h3>   
                 </div>
                 <br/>
                 <div className="container">
