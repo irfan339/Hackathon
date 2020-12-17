@@ -13,7 +13,7 @@
       z-index: 1;
       top: 170px;
       left: 100px;
-      background: rgb(243, 243, 247);
+      background: #c3a469;
       color: #1f07f7;
       overflow-x: hidden;
       padding: 8px 0;
@@ -74,9 +74,4 @@
 
     .main-page-row{
     	border-width: 2px !important;
-    }
-
-    .cs-card-txt{
-    	background-color: #c3a469 !important;
-    	border-color: wheat !important;
     }

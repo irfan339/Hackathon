@@ -65,14 +65,14 @@ class GLSetTable extends Component{
       }
       return (
         <div className="container">
-          <div className="sidenavwhite">
-                    <div className="container">Basic Details</div> 
+          <div className="sidenavwhite amazonTextWhite">
+                    <div className="container amazonColorDark">Basic Details</div> 
                     <hr color="#edf0f"></hr>
-                    <div className="container" >Configure Pricing Strategy</div>
+                    <div className="container amazonColorDark" >Configure Pricing Strategy</div>
                     <hr color="#edf0f"></hr>
-                    <div className="container blueColor">Setup GLs</div>
+                    <div className="container amazonColorDark">Setup GLs</div>
                     <hr color="#edf0f"></hr>
-                    <div className="container" >Finish up!</div>
+                    <div className="container amazonColorDark" >Finish up!</div>
             </div>
             <hr color="#edf0f"></hr>
             <div className="container">
@@ -90,8 +90,8 @@ class GLSetTable extends Component{
                 </div>
             </div>
             <br/>
-            <button type="button"  onClick={this.onPreviousGLTable.bind(this)} class="btn btn-primary btn-lg left" >Previous</button>
-            <button type="button" className="right" onClick={this.onTableSeletion.bind(this)} class="btn btn-primary btn-lg right" >{this.props.nextbuttonValue}</button>
+            <button type="button"  onClick={this.onPreviousGLTable.bind(this)} class="btn btn-primary btn-lg left amazonColorDark" >Previous</button>
+            <button type="button" className="right" onClick={this.onTableSeletion.bind(this)} class="btn btn-primary btn-lg right amazonColorDark" >{this.props.nextbuttonValue}</button>
         </div>
       );
     }

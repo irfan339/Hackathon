@@ -73,12 +73,10 @@ class QuestionAnswersTemplate extends Component{
                 </div>
                 <div className="boxwell"></div>
                 <br/>
-<<<<<<< HEAD
-                <button type="button" className="right" onClick={this.onRadioButtonValueChange.bind(this)} class="btn btn-primary btn-lg amazonColorDark" >{this.props.nextbuttonValue}</button>
-=======
-                <button type="button"  onClick={this.onPreviousRadioButton.bind(this)} class="btn btn-primary btn-lg left" >Previous</button>
-                <button type="button"  onClick={this.onRadioButtonValueChange.bind(this)} class="btn btn-primary btn-lg right" >{this.state.nextbuttonValue}</button>
->>>>>>> bb9a601e952148c9048a6699e1c87315779c05de
+
+                <button type="button"  onClick={this.onPreviousRadioButton.bind(this)} class="btn btn-primary btn-lg left amazonColorDark" >Previous</button>
+                <button type="button"  onClick={this.onRadioButtonValueChange.bind(this)} class="btn btn-primary btn-lg right amazonColorDark" >{this.state.nextbuttonValue}</button>
+
             </div>
           );
     }
@@ -125,12 +123,10 @@ class QuestionAnswersTemplate extends Component{
                 <div className="container">
                     {lis}
                 </div>
-<<<<<<< HEAD
-                <button type="button" onClick={this.onCheckboxSelection.bind(this)} class="btn btn-primary btn-lg amazonColorDark" >{this.props.nextbuttonValue}</button>
-=======
-                <button type="button"  onClick={this.onPreviousRadioButton.bind(this)} class="btn btn-primary btn-lg left" >Previous</button>
-                <button type="button" onClick={this.onCheckboxSelection.bind(this)} class="btn btn-primary btn-lg right" >{this.props.nextbuttonValue}</button>
->>>>>>> bb9a601e952148c9048a6699e1c87315779c05de
+
+            
+                <button type="button"  onClick={this.onPreviousRadioButton.bind(this)} class="btn btn-primary btn-lg left amazonColorDark" >Previous</button>
+                <button type="button" onClick={this.onCheckboxSelection.bind(this)} class="btn btn-primary btn-lg right amazonColorDark" >{this.props.nextbuttonValue}</button>
             </div>
           );
     }
@@ -148,11 +144,8 @@ class QuestionAnswersTemplate extends Component{
             <div>
                 <div className="sidenavwhite amazonColorDark amazonText">
                     {
-<<<<<<< HEAD
                         stage==="MerchantType"? <div className="container blueColor amazonText" ref="basic">Basic Details</div>:
-=======
-                        stage==="MerchantType"? <div className="container blueColor">Basic Details</div>:
->>>>>>> bb9a601e952148c9048a6699e1c87315779c05de
+
                         <div className="container">Basic Details</div> 
                     }
                     <hr color="#edf0f"></hr>

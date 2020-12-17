@@ -262,6 +262,13 @@ class App extends Component {
         </div>
       );
     }
+
+    renderLogo()
+    {
+      return(
+          <div class="topleft">Top Left</div>
+      )
+    }
     renderWelcomePage(){
       return(
           <div class="container">
@@ -294,9 +301,9 @@ class App extends Component {
     renderSelectionPage(){
       return(
         <div>
-            <div class="sidenav text-white  bg-dark cs-card-txt" >
-              <div class="card-header">Hola Garvit</div>
-              <div class="card-body">
+            <div class="sidenav text-white cs-card-txt" >
+              <div class="card-header cs-card-txt" >Hola Garvit</div>
+              <div class="card-body cs-card-txt">
                 <h5 class="card-title">I'm Tiffany</h5>
                 <p class="card-text">I will be guiding you to launch a new entity or a GL into Retail Pricing. You don't need to understand many config keys.</p>
               </div>
@@ -318,8 +325,8 @@ class App extends Component {
                   <option value="Amazon Lite" selected={this.state.merchant === "Amazon Lite" ?true:false }>Amazon Lite</option>
                   <option value="Amazon GO" selected={this.state.merchant === "Amazon GO" ?true:false }>Amazon GO</option>
               </select>
-              <button type="button" onClick={(e)=>this.setState({value:"WelcomePage",marketplace:null,merchant:null})} class="btn btn-primary btn-lg left" >Previous</button>
-              <button type="button" onClick={this.onSelection.bind(this)} class="btn btn-primary btn-lg right" >Next</button>
+              <button type="button" onClick={(e)=>this.setState({value:"WelcomePage",marketplace:null,merchant:null})} class="btn btn-primary btn-lg left amazonColorDark" >Previous</button>
+              <button type="button" onClick={this.onSelection.bind(this)} class="btn btn-primary btn-lg right amazonColorDark" >Next</button>
             </div>
         </div> 
       );
@@ -337,7 +344,7 @@ class App extends Component {
     renderFinishPage(){
       return(
           <div className="container">
-            <div className="jumbotron">
+            <div className="jumbotron amazonColorWheat">
                 <h4 color="green">Done!</h4>
                 <div className="box"></div>
                 <h3 color="green">Merchant has been successfully launched.</h3>
