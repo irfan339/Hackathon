@@ -10,7 +10,8 @@ class GLSetTable extends Component{
           columnHeadings: props.columnHeadings,
           answer:props.answer,
           nextbuttonValue:props.nextbuttonValue,
-          addTableToState:props.addTableToState
+          addTableToState:props.addTableToState,
+          onPreviousGLTable:props.onPreviousGLTable
       }
     }
     componentDidUpdate(prevProps){
@@ -24,7 +25,8 @@ class GLSetTable extends Component{
           columnHeadings: this.props.columnHeadings,
           answer:this.props.answer,
           nextbuttonValue:this.props.nextbuttonValue,
-          addTableToState:this.props.addTableToState
+          addTableToState:this.props.addTableToState,
+          onPreviousGLTable:this.props.onPreviousGLTable
         });
       }
     }
@@ -88,9 +90,13 @@ class GLSetTable extends Component{
                 </div>
             </div>
             <br/>
-            <button type="button" className="right" onClick={this.onTableSeletion.bind(this)} class="btn btn-primary btn-lg" >{this.props.nextbuttonValue}</button>
+            <button type="button"  onClick={this.onPreviousGLTable.bind(this)} class="btn btn-primary btn-lg left" >Previous</button>
+            <button type="button" className="right" onClick={this.onTableSeletion.bind(this)} class="btn btn-primary btn-lg right" >{this.props.nextbuttonValue}</button>
         </div>
       );
+    }
+    onPreviousGLTable(){
+      this.state.onPreviousGLTable({stage:this.state.stage});
     }
     onTableSeletion() {
       const que = this.props.question;

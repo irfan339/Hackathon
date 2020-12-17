@@ -14,6 +14,7 @@ class QuestionAnswersTemplate extends Component{
             answer:props.answer,
             addRadioToState:props.addRadioToState,
             addCheckboxToState:props.addCheckboxToState,
+            onPreviousRadioButton:props.onPreviousRadioButton,
             nextbuttonValue:props.nextbuttonValue,
         };
     }
@@ -32,6 +33,7 @@ class QuestionAnswersTemplate extends Component{
             answer: this.props.answer,
             addRadioToState: this.props.addRadioToState,
             addCheckboxToState: this.props.addCheckboxToState,
+            onPreviousRadioButton:this.props.onPreviousRadioButton,
             nextbuttonValue: this.props.nextbuttonValue,
           });
         }
@@ -71,9 +73,13 @@ class QuestionAnswersTemplate extends Component{
                 </div>
                 <div className="boxwell"></div>
                 <br/>
-                <button type="button" className="right" onClick={this.onRadioButtonValueChange.bind(this)} class="btn btn-primary btn-lg" >{this.state.nextbuttonValue}</button>
+                <button type="button"  onClick={this.onPreviousRadioButton.bind(this)} class="btn btn-primary btn-lg left" >Previous</button>
+                <button type="button"  onClick={this.onRadioButtonValueChange.bind(this)} class="btn btn-primary btn-lg right" >{this.state.nextbuttonValue}</button>
             </div>
           );
+    }
+    onPreviousRadioButton(){
+        this.state.onPreviousRadioButton({stage:this.state.stage});
     }
     onRadioButtonValueChange() {
         const que = this.props.question;
@@ -115,7 +121,8 @@ class QuestionAnswersTemplate extends Component{
                 <div className="container">
                     {lis}
                 </div>
-                <button type="button" onClick={this.onCheckboxSelection.bind(this)} class="btn btn-primary btn-lg" >{this.props.nextbuttonValue}</button>
+                <button type="button"  onClick={this.onPreviousRadioButton.bind(this)} class="btn btn-primary btn-lg left" >Previous</button>
+                <button type="button" onClick={this.onCheckboxSelection.bind(this)} class="btn btn-primary btn-lg right" >{this.props.nextbuttonValue}</button>
             </div>
           );
     }
