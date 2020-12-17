@@ -13,6 +13,11 @@
   }
 }
 
+.fright{
+  
+  margin-left: 650px;
+}
+
 .box{
   margin-bottom: 60px;
 }
@@ -20,7 +25,7 @@
   width: 180px;
   position: fixed;
   z-index: 1;
-  top: 175px;
+  top: 230px;
   left: 100px;
   background: rgb(35, 21, 233);
   color: #edf0f3;
