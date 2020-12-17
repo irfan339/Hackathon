@@ -9,6 +9,7 @@ class App extends Component {
       super(props);
       this.state={
           value:"WelcomePage",
+          //value:"SimulationPage",
           WelcomePageSelection: null,
           marketplace: null,
           merchant: null,
@@ -22,12 +23,13 @@ class App extends Component {
           AddOnMerchantState:null,
           MMGLError:null,
           typeofMerchant:null,
+          fileName:null,
           childAnswers: []
       };
     }
     addRadioToState(newValue) 
     {
-        if(newValue.stage === "MerchantType" && newValue.answer === "Standard"){
+        if(newValue.stage === "MerchantType" && newValue.answer === "Retail"){
           this.setState({ childAnswers:[...this.state.childAnswers,newValue], value:"CompMatchStandard" });
         } else if(newValue.stage === "CompMatchStandard" && newValue.answer === "Standard Template"){
           this.setState({ childAnswers:[...this.state.childAnswers,newValue], value:"ConfigsStandard" });
@@ -131,10 +133,12 @@ class App extends Component {
         content= this.renderSelectionPage();
       } else if(this.state.value==="MerchantType" && this.state.WelcomePageSelection==="Launch"){
         const {merchantTypeState}= this.state;
-        const answer=['Standard','3rd Party','Lister'];
+        const answer=['Retail','3rd Party'];
         content= <QuestionAnswersTemplate 
-                    question={'What type of Merchant is this ? '} 
+                    question={'What type of Merchant is this'} 
                     answer={answer} 
+                    description={['Description: Product is sold and shipped by Retail seller i.e Amazon.XX',
+                                  'Description: Third party seller who list the product on Amazon marketplace']}
                     type={'radio'} 
                     defaultRadiovalue={merchantTypeState?answer.indexOf(merchantTypeState.answer):0}
                     stage="MerchantType"
@@ -147,11 +151,11 @@ class App extends Component {
         const {CompMatchStandardState}= this.state;
         const answer=['Standard Template','Related Merchant','Comp Match with related merchant as fall back'];
         content= <QuestionAnswersTemplate 
-                    question={'Select the Comp match strategy for this Merchant'} 
+                    question={'Select the Competitor matching strategy for this Merchant'} 
                     answer={answer} 
-                    description={['Description: Recommends min(CMT,FMA) competitor input',
-                                  'Description: Inherits the price without any filter from parent merchant',
-                                  'Description: Price will be recommended at min(CMT,FMA). In absence of input price will be inherited from parent MKPL']}
+                    description={['Description: Will recommend Min(external,internal) competitor price',
+                                  'Description: Will inherit all pricing policies from parent merchant including Price',
+                                  'Description: Min(external,internal) competitor price recommended as Final price, in absence of competitor will inherit from parent merchant']}
                     type={'radio'} 
                     defaultRadiovalue={CompMatchStandardState?answer.indexOf(CompMatchStandardState.answer):0}
                     stage="CompMatchStandard"
@@ -164,8 +168,11 @@ class App extends Component {
         const {ConfigsStandardState}= this.state;
         const answer=['External Comp match','Internal Comp match','FBA Cede'];
         content= <QuestionAnswersTemplate 
-                    question={'Select Configs for Standard Template  '} 
+                    question={'Select Configs for Standard Template'} 
                     answer={answer} 
+                    description={['Description: Will consume CMT recommended price as an input for price recommendation.',
+                                  'Description: FMA recommended featured offer price will be used to derive price',
+                                  'Description: We will match FBA Seller recommended by FMA, and cede featured offer where applicable']}
                     type={'checkbox'} 
                     stage="ConfigsStandard"
                     defaultCheckboxValues={ConfigsStandardState?ConfigsStandardState.answer.map(a=> answer.indexOf(a)):[0,1,2]}
@@ -176,7 +183,8 @@ class App extends Component {
                   />;
       } else if(this.state.value==="SelectGLForMerchant" && this.state.WelcomePageSelection==="Launch"){
         const{SelectGLForMerchantState}=this.state;
-        const answer= ['Apparel','Books','Home Decor','Vehicles','Shoes'];
+        const answer= ['Apparel(Softlines)','Shoes(Softlines)','Luggage(Softlines)','Books(Media)','Gifts(Media)','Tires(Hardlines)','Home Decor(Hardlines)','Ebook(Digital)',
+            'Amazon_Pantry(Consumables)'];
         content= <QuestionAnswersTemplate 
                     question={'Select the GLs for this Merchant'} 
                     answer={answer} 
@@ -190,14 +198,14 @@ class App extends Component {
                   />;
       } else if(this.state.value==="PriceVarianceGLTable" && this.state.WelcomePageSelection==="Launch"){
         const{PriceVarianceGLTableState}=this.state;
-        const answer= [ [1,2,3,4], 
-                        [5,6,7,8], 
-                        [9,10,11,12] ];
+        const answer= [ ["10.17","20%","3.00","4%"], 
+                        ["50.34","6%","70.98","8%"], 
+                        ["9.09","10%","11.00","12%"] ];
         content= <GLSetTable question={'Enter the Price Variance for Selected GLs'}
                         type={'PriceVarianceGLTable'}
                         stage={'PriceVarianceGLTable'}
-                        rowHeadings={['Apparel','Books','Shoes']}
-                        columnHeadings={['Field1','Field2','Field3','Field4']}
+                        rowHeadings={['Apparel','Shoes','Books']}
+                        columnHeadings={['increase by $,','increase by %','decrease by $','decrease by %']}
                         answer={PriceVarianceGLTableState? PriceVarianceGLTableState.answer: answer}
                         nextbuttonValue="Submit and Proceed to Configure CP Caps"
                         addTableToState={this.addTableToState.bind(this)}
@@ -205,14 +213,14 @@ class App extends Component {
                   />;
       } else if(this.state.value==="ThresholdGLTable" && this.state.WelcomePageSelection==="Launch"){
         const{ThresholdGLTableState}=this.state;
-        const answer= [ [120,230], 
-                        [500,600], 
-                        [90,110] ];
+        const answer= [ ["120.10","89%"], 
+                        ["500.90","65%"], 
+                        ["91.12","75%"] ];
         content= <GLSetTable question={'Enter the CP cap thresholds for Selected GLs'}
                         type={'ThresholdGLTable'}
                         stage={'ThresholdGLTable'}
-                        rowHeadings={['Apparel','Books','Shoes']}
-                        columnHeadings={['Field1','Field2']}
+                        rowHeadings={['Apparel','Shoes','Books']}
+                        columnHeadings={['Margin in $','Margin in %']}
                         answer={ThresholdGLTableState?ThresholdGLTableState.answer:answer}
                         nextbuttonValue="Submit and Proceed to Configure Email notifications"
                         addTableToState={this.addTableToState.bind(this)}
@@ -220,14 +228,14 @@ class App extends Component {
                   />;
       }  else if(this.state.value==="MonitorGLTable" && this.state.WelcomePageSelection==="Launch"){
         const{MonitorGLTableState}=this.state;
-        const answer = [ ['apparel@gmail.com',30], 
-                         ['books@gmail.com',60], 
-                         ['shoes@gmail.com',11] ];
+        const answer = [ ['apparel-spike@amazon.com','apparel@amazon.com'], 
+                         ['books-spike@amazon.com','books@amazon.com'], 
+                         ['shoes-spike@amazon.com','shoes@amazon.com'] ];
         content= <GLSetTable question={'Configure the demand monitors for Selected GLs'}
                         type={'MonitorGLTable'}
                         stage={'MonitorGLTable'}
                         rowHeadings={['Apparel','Books','Shoes']}
-                        columnHeadings={['Email','Field2']}
+                        columnHeadings={['Spike','Kill']}
                         answer={MonitorGLTableState?MonitorGLTableState.answer:answer}
                         nextbuttonValue="Submit and Proceed to enable add-ons"
                         addTableToState={this.addTableToState.bind(this)}
@@ -235,22 +243,24 @@ class App extends Component {
                   />;
       }  else if(this.state.value==="AddOnMerchant" && this.state.WelcomePageSelection==="Launch"){
         const{AddOnMerchantState}=this.state;
-        const answer = ['Phase 2 Cede','Teen','PPU','H/B ASIN CP aware','MAP as floor','ECF as floor']
+        const answer = ['Match External Competitor while losing featured offer','Teen','PPU','H/B ASIN CP aware','MAP as floor','ECF as floor']
         content= <QuestionAnswersTemplate 
-                    question={'Select any add-ons that you would like to enable for the merchant '} 
+                    question={'Select any add-ons that you would like to enable for the merchant'} 
                     answer={answer} 
                     type={'checkbox'} 
                     stage="AddOnMerchant"
-                    defaultCheckboxValues={AddOnMerchantState?AddOnMerchantState.answer.map(a=> answer.indexOf(a)):[0,1,2,3,4,5]}
+                    defaultCheckboxValues={AddOnMerchantState?AddOnMerchantState.answer.map(a=> answer.indexOf(a)):[]}
                     nextbuttonValue="Next"
                     addCheckboxToState={this.addCheckboxToState.bind(this)} 
                     addRadioToState={this.addRadioToState.bind(this)}
                     onPreviousRadioButton={this.onPreviousRadioButton.bind(this)}
                     onPreviousGLTable={this.onPreviousGLTable.bind(this)}
                   />;
-      } else if(this.state.value==="SummaryPage" && this.state.WelcomePageSelection==="Launch"){
+      } else if(this.state.value==="SummaryPage"){
         content= this.renderSummaryPage();
-      } else if(this.state.value==="FinishPage" && this.state.WelcomePageSelection==="Launch"){
+      } else if(this.state.value==="SimulationPage"){
+        content= this.renderSimulationPage();
+      } else if(this.state.value==="FinishPage"){
         content= this.renderFinishPage();
       }  else if(this.state.value==="ParentMerchant" && this.state.WelcomePageSelection==="Launch"){
         content= this.renderParentMerchant();
@@ -359,25 +369,36 @@ class App extends Component {
             
             <div className="container">
               
-              <h3 className="left" >What  would you like to Lauch</h3>
+              <h3 className="left" >What  would you like to Launch</h3>
               
              <select onChange={(event) => this.setState({marketplace:event.target.value})} class="browser-default custom-select custom-select-lg mb-3">
                   <option disabled selected={this.state.marketplace?false:true} hidden>Select Marketplace</option>
                   <option value="US" selected={this.state.marketplace === "US" ?true:false }>US</option>
                   <option value="Amazon Fresh" selected={this.state.marketplace === "Amazon Fresh" ?true:false }>Amazon Fresh</option>
+                  <option value="6PM" selected={this.state.marketplace === "6PM" ?true:false }>6PM</option>
                   <option value="Mendel" selected={this.state.marketplace === "Mendel" ?true:false }>Mendel</option>
+                  <option value="MX" selected={this.state.marketplace === "MX" ?true:false }>MX</option>
+                  <option value="Panda01" selected={this.state.marketplace === "Panda01" ?true:false }>Panda01</option>
+                  <option value="QuaterDeck" selected={this.state.marketplace === "QuaterDeck" ?true:false }>QuaterDeck</option>
+                  <option value="PrimeNow Miami" selected={this.state.marketplace === "PrimeNow Miami" ?true:false }>PrimeNow Miami</option>
+                  <option value="SmallParts" selected={this.state.marketplace === "SmallParts" ?true:false }>SmallParts</option>
+                  <option value="Zappos" selected={this.state.marketplace === "Zappos" ?true:false }>Zappos</option>
+                  <option value="ZapposCouture" selected={this.state.marketplace === "ZapposCouture" ?true:false }>ZapposCouture</option>
               </select>
               <select onChange={(event) => this.setState({merchant:event.target.value})} class="browser-default custom-select custom-select-lg mb-3">
                   <option disabled selected={this.state.merchant?false:true} hidden>Select Merchant</option>
                   <option value="Amazon Fresh" selected={this.state.merchant === "Amazon Fresh" ?true:false }>Amazon Fresh</option>
-                  <option value="Amazon Lite" selected={this.state.merchant === "Amazon Lite" ?true:false }>Amazon Lite</option>
+                  <option value="Instant-NYU" selected={this.state.merchant === "Instant-NYU" ?true:false }>Instant-NYU</option>
                   <option value="Amazon GO" selected={this.state.merchant === "Amazon GO" ?true:false }>Amazon GO</option>
+                  <option value="Instant-NCState" selected={this.state.merchant === "Instant-NCState" ?true:false }>Instant-NCState</option>
+                  <option value="Amazon Appstore" selected={this.state.merchant === "Amazon Appstore" ?true:false }>Amazon Appstore</option>
+                  <option value="Amazon Lite" selected={this.state.merchant === "Amazon Lite" ?true:false }>Amazon Lite</option>
+                  <option value="Amazon B2B" selected={this.state.merchant === "Amazon B2B" ?true:false }>Amazon B2B</option>
+                  <option value="Zappos Retail" selected={this.state.merchant === "Zappos Retail" ?true:false }>Zappos Retail</option>
+                  <option value="Amazon Digital" selected={this.state.merchant === "Amazon Digital" ?true:false }>Amazon Digital</option>
               </select>
               <select  class="browser-default custom-select custom-select-lg mb-3">
                   <option disabled selected hidden>Select Lister</option>
-              </select>
-              <select  class="browser-default custom-select custom-select-lg mb-3">
-                  <option disabled selected hidden>Select GL</option>
               </select>
               <button type="button" onClick={(e)=>this.setState({value:"WelcomePage",marketplace:null,merchant:null})} class="btn btn-primary btn-lg left amazonColorDark" >Previous</button>
               <button type="button" onClick={this.onSelection.bind(this)} class="btn btn-primary btn-lg right amazonColorDark" >Next</button>
@@ -424,9 +445,16 @@ class App extends Component {
           </div>
           <select onChange={(event) => this.setState({parentMerchant:event.target.value})} class="browser-default custom-select custom-select-lg mb-3">
               <option disabled selected={this.state.parentMerchant?false:true} hidden>Select the parent merchant from this dropdown</option>
-              <option value="US" selected={this.state.parentMerchant === "US" ?true:false }>US</option>
-              <option value="Amazon Fresh" selected={this.state.parentMerchant === "Amazon Fresh" ?true:false }>Amazon Fresh</option>
-              <option value="Mendel" selected={this.state.parentMerchant === "Mendel" ?true:false }>Mendel</option>
+              <option value="AmazonWirelessUS" selected={this.state.parentMerchant === "AmazonWirelessUS" ?true:false }>AmazonWirelessUS</option>
+              <option value="AmazonFresh LLC" selected={this.state.parentMerchant === "AmazonFresh LLC" ?true:false }>AmazonFresh LLC</option>
+              <option value="AmazonFresh Seattle" selected={this.state.parentMerchant === "AmazonFresh Seattle" ?true:false }>AmazonFresh Seattle</option>
+              <option value="Instant Pickup Berkley" selected={this.state.parentMerchant === "Instant Pickup Berkley" ?true:false }>Instant Pickup Berkley</option>
+              <option value="Mendel01" selected={this.state.parentMerchant === "Mendel01" ?true:false }>Mendel01</option>
+              <option value="Product Compliance Mendel" selected={this.state.parentMerchant === "Product Compliance Mendel" ?true:false }>Product Compliance Mendel</option>
+              <option value="Mendel02" selected={this.state.parentMerchant === "Mendel02" ?true:false }>Mendel02</option>
+              <option value="Zappos Retail Inc" selected={this.state.parentMerchant === "Zappos Retail Inc" ?true:false }>Zappos Retail Inc</option>
+              <option value="Author Services" selected={this.state.parentMerchant === "Author Services" ?true:false }>Author Services</option>
+              <option value="ZConsignment" selected={this.state.parentMerchant === "ZConsignment" ?true:false }>ZConsignment</option>
           </select>
           <button type="button" onClick={(e)=>this.setState({value:"CompMatchStandard",parentMerchant:null,
           CompMatchStandardState:this.state.childAnswers.find(obj => {return obj.stage === "CompMatchStandard"}),
@@ -455,8 +483,8 @@ class App extends Component {
             <div class="sidenav text-white   cs-card-txt" >
               <div class="card-header cs-card-txt">Hola Garvit</div>
               <div class="card-body cs-card-txt">
-                <h5 class="card-title">I'm Tiffany</h5>
-                <p class="card-text"> See the Summary of your Selection.</p>
+                <button type="button" class="btn btn-outline-success btn-search btn-bgclr" >Download</button>
+                <p class="card-text"> Summary of your Selection.</p>
               </div>
             </div>
             <div className="container">
@@ -481,7 +509,9 @@ class App extends Component {
             </div>
 
             <button type="button" onClick={this.onSummaryPagePrevious.bind(this)} class="btn btn-primary btn-lg left amazonColorDark" >Previous</button>
-            <button type="button" onClick={this.onSummaryPageSelection.bind(this)} class="btn btn-primary btn-lg right amazonColorDark">Complete</button>
+            <input type="text" class="form-control right" placeholder="Save File name" aria-label="Username" style={{width:300}} 
+                onChange={(event) => { this.setState({fileName: event.target.value})}}/>  <br/><br/>
+            <button type="button" onClick={this.onSummaryPageSelection.bind(this)} class="btn btn-primary btn-lg right amazonColorDark">Go to Config PlayGround</button>
           </div>
         );
       } else {
@@ -490,8 +520,8 @@ class App extends Component {
            <div class="sidenav text-white cs-card-txt" >
               <div class="card-header cs-card-txt">Hola Garvit</div>
               <div class="card-body cs-card-txt">
-                <h5 class="card-title">I'm Tiffany</h5>
-                <p class="card-text"> See the Summary of your Selection.</p>
+                <button type="button" class="btn btn-outline-success btn-search btn-bgclr" >Download</button>
+                <p class="card-text"> Summary of your Selection.</p>
               </div>
             </div>
             <div className="container">
@@ -514,9 +544,10 @@ class App extends Component {
                       </table>
             </div>
 
-
             <button type="button" onClick={this.onSummaryPagePrevious.bind(this)} class="btn btn-primary btn-lg left amazonColorDark" >Previous</button>
-            <button type="button" onClick={this.onSummaryPageSelection.bind(this)} class="btn btn-primary btn-lg right amazonColorDark">Complete</button>
+            <input type="text" class="form-control right" placeholder="Save File name" aria-label="Username" style={{width:300}} 
+                onChange={(event) => { this.setState({fileName: event.target.value})}}/>  <br/><br/>
+            <button type="button" onClick={this.onSummaryPageSelection.bind(this)} class="btn btn-primary btn-lg right amazonColorDark">Go to Config PlayGround</button>
           </div>
         );
       }
@@ -539,8 +570,49 @@ class App extends Component {
       }   
     }
     onSummaryPageSelection(){
-        this.setState({value:"FinishPage"});
+        this.setState({value:"SimulationPage"});
     }  
+
+    renderSimulationPage(){
+      return(
+        <div className="container">
+                <hr color="#edf0f"></hr>
+                <div className="container" >
+                    <h3 className="left">Config PlayGround</h3> 
+                </div>
+                <br/>
+                <hr color="#edf0f"></hr>
+                <h3 class="left"> Select the saved config's to play around</h3>
+                <br/><br/>
+                <div className="container">
+                    <div class="custom-control custom-radio left" >
+                        <input type="radio" class="custom-control-input" id="1" value="1" name="Radios"/>
+                        <label class="custom-control-label" for="1">Mendel</label>
+                     </div>    
+                     <br/>
+                     <div class="custom-control custom-radio left"  >
+                        <input type="radio" class="custom-control-input" id="2"value="2" name="Radios"/>
+                        <label class="custom-control-label" for="2">Go</label>
+                     </div> 
+                     <br/>
+                     <div class="custom-control custom-radio left"  >
+                        <input type="radio" class="custom-control-input" id="3" value="3" name="Radios" />
+                        <label class="custom-control-label" for="3">{this.state.fileName?this.state.fileName:"NewMerchant"}</label>
+                     </div> 
+                </div>
+                <div className="boxwell"></div>
+                <br/>
+                <textarea placeholder="Enter the list of ASIN's" class="form-control left" style={{width:385,height:300}}></textarea>
+                <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+                <button type="button"  class="btn btn-primary btn-lg left amazonColorDark" >Download the Config PlayGround Report</button>  
+                <button type="button"  onClick={this.onSimulationPageComplete.bind(this)} class="btn btn-primary btn-lg right amazonColorDark" >Complete</button>
+        </div>
+      );
+    }
+    onSimulationPageComplete(){
+      this.setState({value:"FinishPage"});
+    }  
+
 }
 
 export default App;

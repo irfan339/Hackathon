@@ -20,7 +20,9 @@
 .boxreduce{
   margin-bottom: 40px;
 }
-
+.btn-bgclr{
+  backgroundColor: #010507f8;
+}
 .box{
   margin-bottom: 60px;
 }
