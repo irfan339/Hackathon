@@ -49,7 +49,7 @@ class QuestionAnswersTemplate extends Component{
                 </div>
                 <div className="boxwell"></div>
                 <br/>
-                <button type="button" className="right" onClick={this.onRadioButtonValueChange.bind(this)} class="btn btn-primary btn-lg" >{this.props.nextbuttonValue}</button>
+                <button type="button" className="right" onClick={this.onRadioButtonValueChange.bind(this)} class="btn btn-primary btn-lg amazonColorDark" >{this.props.nextbuttonValue}</button>
             </div>
           );
     }
@@ -90,7 +90,7 @@ class QuestionAnswersTemplate extends Component{
                 <div className="container">
                     {lis}
                 </div>
-                <button type="button" onClick={this.onCheckboxSelection.bind(this)} class="btn btn-primary btn-lg" >{this.props.nextbuttonValue}</button>
+                <button type="button" onClick={this.onCheckboxSelection.bind(this)} class="btn btn-primary btn-lg amazonColorDark" >{this.props.nextbuttonValue}</button>
             </div>
           );
     }
@@ -106,9 +106,9 @@ class QuestionAnswersTemplate extends Component{
         const {question, answer, stage} = this.props;
         return(
             <div>
-                <div className="sidenavwhite">
+                <div className="sidenavwhite amazonColorDark amazonText">
                     {
-                        stage==="MerchantType"? <div className="container blueColor" ref="basic">Basic Details</div>:
+                        stage==="MerchantType"? <div className="container blueColor amazonText" ref="basic">Basic Details</div>:
                         <div className="container">Basic Details</div> 
                     }
                     <hr color="#edf0f"></hr>

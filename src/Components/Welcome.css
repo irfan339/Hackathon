@@ -31,3 +31,52 @@
     .boxwell{
       margin-bottom: 30px;
     }
+
+    .amazonColorLight{
+    	background-color: #f0c14b !important
+
+    }
+
+    .amazonColorWheat{
+    	background-color: wheat !important;
+    	border-color: wheat !important;
+    }
+
+    .amazonColorDark{
+    	background-color: #c3a469 !important;
+    	border-color: #c3a469 !important
+    }
+
+    .amazonBorderColorDark{
+    	border-color: #c3a469 !important
+    }
+
+    .bg-white{
+    	background-color: white !important;
+    }
+
+    .amazonText{
+    	color: white !important;
+    	font-weight: 600 !important;
+    }
+
+    .amazonTextWhite{
+    	color: white !important;
+    	font-weight: 300 !important;
+    }
+
+    .btn-1{
+    	background-color: #c3a469 !important;
+    	border-color: wheat !important;
+    	font-weight: 500 !important;
+    	margin-bottom: 24px;
+    }
+
+    .main-page-row{
+    	border-width: 2px !important;
+    }
+
+    .cs-card-txt{
+    	background-color: #c3a469 !important;
+    	border-color: wheat !important;
+    }
