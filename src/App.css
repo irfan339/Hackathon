@@ -17,6 +17,9 @@
   
   margin-left: 650px;
 }
+.boxreduce{
+  margin-bottom: 40px;
+}
 
 .box{
   margin-bottom: 60px;
@@ -25,7 +28,7 @@
   width: 180px;
   position: fixed;
   z-index: 1;
-  top: 230px;
+  top: 270px;
   left: 100px;
   background: rgb(35, 21, 233);
   color: #edf0f3;

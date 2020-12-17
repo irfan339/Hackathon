@@ -79,10 +79,16 @@ class App extends Component {
           this.setState({ childAnswers:[...this.state.childAnswers,newValue], value:"SelectGLForMerchant" });
         } else if(newValue.stage === "SelectGLForMerchant")
         {
-          this.setState({ childAnswers:[...this.state.childAnswers,newValue], value:"PriceVarianceGLTable" });
+          var compmatch=this.state.childAnswers.find(obj => {return obj.stage === "CompMatchStandard"});
+          var valuetoPush="PriceVarianceGLTable";
+          if(compmatch.answer === "Related Merchant"){
+            valuetoPush="SummaryPage";
+          }
+          
+          this.setState({ childAnswers:[...this.state.childAnswers,newValue], value:valuetoPush });
         } else if(newValue.stage === "AddOnMerchant")
         {
-          this.setState({ childAnswers:[...this.state.childAnswers,newValue], value:"FinishPage" });
+          this.setState({ childAnswers:[...this.state.childAnswers,newValue], value:"SummaryPage" });
         }
     }
     onPreviousGLTable(newValue){
@@ -228,18 +234,23 @@ class App extends Component {
                         onPreviousGLTable={this.onPreviousGLTable.bind(this)}
                   />;
       }  else if(this.state.value==="AddOnMerchant" && this.state.WelcomePageSelection==="Launch"){
+        const{AddOnMerchantState}=this.state;
+        const answer = ['Phase 2 Cede','Teen','PPU','H/B ASIN CP aware','MAP as floor','ECF as floor']
         content= <QuestionAnswersTemplate 
                     question={'Select any add-ons that you would like to enable for the merchant '} 
-                    answer={['Phase 2 Cede','Teen','PPU','H/B ASIN CP aware','MAP as floor','ECF as floor']} 
+                    answer={answer} 
                     type={'checkbox'} 
                     stage="AddOnMerchant"
+                    defaultCheckboxValues={AddOnMerchantState?AddOnMerchantState.answer.map(a=> answer.indexOf(a)):[]}
                     nextbuttonValue="Next"
                     addCheckboxToState={this.addCheckboxToState.bind(this)} 
                     addRadioToState={this.addRadioToState.bind(this)}
                     onPreviousRadioButton={this.onPreviousRadioButton.bind(this)}
                     onPreviousGLTable={this.onPreviousGLTable.bind(this)}
                   />;
-      }  else if(this.state.value==="FinishPage" && this.state.WelcomePageSelection==="Launch"){
+      } else if(this.state.value==="SummaryPage" && this.state.WelcomePageSelection==="Launch"){
+        content= this.renderSummaryPage();
+      } else if(this.state.value==="FinishPage" && this.state.WelcomePageSelection==="Launch"){
         content= this.renderFinishPage();
       }  else if(this.state.value==="ParentMerchant" && this.state.WelcomePageSelection==="Launch"){
         content= this.renderParentMerchant();
@@ -292,6 +303,7 @@ class App extends Component {
                   </nav>
             </div>      
             <div className="container">
+                <div class="boxreduce"></div>
                 <h1> Launching Merchant </h1>
             </div>
         </div>
@@ -426,8 +438,103 @@ class App extends Component {
     }  
 
     renderSummaryPage(){
+      var compmatch=this.state.childAnswers.find(obj => {return obj.stage === "CompMatchStandard"});
+      var merchanttype=this.state.childAnswers.find(obj => {return obj.stage === "MerchantType"});
+      var gls=this.state.childAnswers.find(obj => {return obj.stage === "SelectGLForMerchant"});
+      if(compmatch.answer === "Standard Template"){
+        var configs=this.state.childAnswers.find(obj => {return obj.stage === "ConfigsStandard"});
+        var addon=this.state.childAnswers.find(obj => {return obj.stage === "AddOnMerchant"});
+        return(
+          <div class="container">
+            <div class="sidenav text-white   bg-dark" >
+              <div class="card-header">Hola Garvit</div>
+              <div class="card-body">
+                <h5 class="card-title">I'm Tiffany</h5>
+                <p class="card-text"> See the Summary of your Selection.</p>
+              </div>
+            </div>
+            <div className="container">
+                <h3 className="left">Summary</h3>   
+            </div>
+            <br/>
+            <div class="table-responsive">
+                      <table class="table table-hover">
+                        <thead>
+                          <tr> <th>Key</th>  <th>Value</th></tr>
+                        </thead>
+                        <tbody> 
+                          <tr> <td>Marketplace</td> <td>{this.state.marketplace}</td> </tr>
+                          <tr> <td>Merchant</td> <td>{this.state.merchant}</td> </tr>
+                          <tr> <td>Merchant Type</td> <td>{merchanttype.answer}</td> </tr>
+                          <tr> <td>Compmatch Strategy</td> <td>{compmatch.answer}</td> </tr>
+                          <tr> <td>Configs of Standard Template</td> <td>{"["+configs.answer.toString()+"]"}</td> </tr>
+                          <tr> <td>GL selecteds</td> <td>{"["+gls.answer.toString()+"]"}</td> </tr>
+                          <tr> <td>Add-On's</td> <td>{"["+addon.answer.toString()+"]"}</td> </tr>
+                        </tbody>
+                      </table>
+            </div>
+
+            <button type="button" onClick={this.onSummaryPagePrevious.bind(this)} class="btn btn-primary btn-lg left" >Previous</button>
+            <button type="button" onClick={this.onSummaryPageSelection.bind(this)} class="btn btn-primary btn-lg right">Complete</button>
+          </div>
+        );
+      } else {
+        return(
+          <div class="container">
+           <div class="sidenav text-white   bg-dark" >
+              <div class="card-header">Hola Garvit</div>
+              <div class="card-body">
+                <h5 class="card-title">I'm Tiffany</h5>
+                <p class="card-text"> See the Summary of your Selection.</p>
+              </div>
+            </div>
+            <div className="container">
+                <h3 className="left">Summary </h3>   
+            </div>
+            <br/>
+            <div class="table-responsive">
+                      <table class="table table-hover">
+                        <thead>
+                          <tr> <th>Key</th>  <th>Value</th></tr>
+                        </thead>
+                        <tbody> 
+                          <tr> <td>Marketplace</td> <td>{this.state.marketplace}</td> </tr>
+                          <tr> <td>Merchant</td> <td>{this.state.merchant}</td> </tr>
+                          <tr> <td>Merchant Type</td> <td>{merchanttype.answer}</td> </tr>
+                          <tr> <td>Compmatch Strategy</td> <td>{compmatch.answer}</td> </tr>
+                          <tr> <td>Parent Merchant</td> <td>{this.state.parentMerchant}</td> </tr>
+                          <tr> <td>GL selecteds</td> <td>{"["+gls.answer.toString()+"]"}</td> </tr>
+                        </tbody>
+                      </table>
+            </div>
+
+
+            <button type="button" onClick={this.onSummaryPagePrevious.bind(this)} class="btn btn-primary btn-lg left" >Previous</button>
+            <button type="button" onClick={this.onSummaryPageSelection.bind(this)} class="btn btn-primary btn-lg right">Complete</button>
+          </div>
+        );
+      }
       
     }
+    onSummaryPagePrevious(){
+      var compmatch=this.state.childAnswers.find(obj => {return obj.stage === "CompMatchStandard"});
+      if(compmatch.answer === "Related Merchant"){
+        var result = this.state.childAnswers.find(obj => {
+          return obj.stage === "SelectGLForMerchant"
+        });
+        this.setState({ SelectGLForMerchantState:result ,
+          value:"SelectGLForMerchant",childAnswers:this.state.childAnswers.filter(obj=>obj.stage !== "SelectGLForMerchant") });
+      } else {
+        var result1 = this.state.childAnswers.find(obj => {
+          return obj.stage === "AddOnMerchant"
+        });
+        this.setState({ AddOnMerchantState:result1 ,
+          value:"AddOnMerchant",childAnswers:this.state.childAnswers.filter(obj=>obj.stage !== "AddOnMerchant") }); 
+      }   
+    }
+    onSummaryPageSelection(){
+        this.setState({value:"FinishPage"});
+    }  
 }
 
 export default App;
