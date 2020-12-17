@@ -317,9 +317,8 @@ class App extends Component {
                   </nav>
             </div>      
             <div className="container">
-                <div class="boxreduce"></div>
                 <div class="image-style-2 nav-move-left">
-                              <a href="/"><img src={image4}></img></a>
+                              <a href="/"><img src={image4} ></img></a>
                 </div>
             </div>
         </div>
@@ -614,8 +613,8 @@ class App extends Component {
                 </div>
                 <div className="boxwell"></div>
                 <br/>
-                <textarea placeholder="Enter the list of ASIN's" class="form-control left" style={{width:385,height:300}}></textarea>
-                <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+                <textarea placeholder="Enter the list of ASIN's" class="form-control left" style={{width:385,height:150}}></textarea>
+                <br/><br/><br/><br/><br/><br/><br/>
                 <button type="button"  class="btn btn-primary btn-lg left amazonColorDark" >Download the Config PlayGround Report</button>  
                 <button type="button"  onClick={this.onSimulationPageComplete.bind(this)} class="btn btn-primary btn-lg right amazonColorDark" >Complete</button>
         </div>

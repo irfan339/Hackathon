@@ -96,8 +96,8 @@ class QuestionAnswersTemplate extends Component{
     //Completed above Radiobutton Code
     renderCheckbox(question, answers){
         var lis = [];
-        for(var i = 0; i < answers.length ; i++) {
-            lis.push(<br/>);
+        lis.push(<br/>);
+        for(var i = 0; i < answers.length ; i++) {  
             lis.push(<div class="custom-control custom-checkbox left">
                         <input type="checkbox" class="custom-control-input" id={i} value={i} name="checboxes" 
                             checked={this.state.defaultCheckboxValues?this.state.defaultCheckboxValues.includes(i):false}
@@ -117,7 +117,7 @@ class QuestionAnswersTemplate extends Component{
                             <label className="left">{"["+this.props.description[i]+"]"}</label>
                         </div>
                     );
-                lis.push(<br/>);
+                lis.push(<br/>);lis.push(<br/>);
             }          
         }   
         return (
