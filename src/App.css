@@ -54,11 +54,45 @@
   color: #61dafb;
 }
 
+.btn-search{
+    background-color: black !important;
+    border-color: black !important;
+    color: white !important;
+    margin-left: 8px;
+}
+
+.btn-txt{
+    
+}
+
+.btn-search:hover{
+  background-color : #3c3535 !important;
+  border-color: #3c3535 !important;
+}
+
 .cs-card-txt{
       background-color: #c3a469 !important;
       border-color: wheat !important;
     }
-    
+  
+.title-margin{
+  margin-bottom: 20px;
+}
+
+.image-style{
+  display: flex;
+    justify-content: center;
+    height: 40px; /* or other desired height */
+    width: 80px;
+    overflow: hidden;
+    margin-right: 20px;
+}
+
+img {
+    flex: none; /* keep aspect ratio */
+    max-width: 100%
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
