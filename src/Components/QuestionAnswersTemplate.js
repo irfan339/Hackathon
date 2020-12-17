@@ -123,7 +123,7 @@ class QuestionAnswersTemplate extends Component{
                 <div className="container">
                     {lis}
                 </div>
-
+                <br/>
             
                 <button type="button"  onClick={this.onPreviousRadioButton.bind(this)} class="btn btn-primary btn-lg left amazonColorDark" >Previous</button>
                 <button type="button" onClick={this.onCheckboxSelection.bind(this)} class="btn btn-primary btn-lg right amazonColorDark" >{this.props.nextbuttonValue}</button>
@@ -144,7 +144,7 @@ class QuestionAnswersTemplate extends Component{
             <div>
                 <div className="sidenavwhite amazonColorDark amazonText">
                     {
-                        stage==="MerchantType"? <div className="container blueColor amazonText" ref="basic">Basic Details</div>:
+                        stage==="MerchantType"? <div className="container blueColor">Basic Details</div>:
 
                         <div className="container">Basic Details</div> 
                     }

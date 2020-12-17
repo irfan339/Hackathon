@@ -176,7 +176,7 @@ class App extends Component {
                   />;
       } else if(this.state.value==="SelectGLForMerchant" && this.state.WelcomePageSelection==="Launch"){
         const{SelectGLForMerchantState}=this.state;
-        const answer= ['Apparel','Books','Home Decor','Vehicles','Stationary'];
+        const answer= ['Apparel','Books','Home Decor','Vehicles','Shoes'];
         content= <QuestionAnswersTemplate 
                     question={'Select the GLs for this Merchant  '} 
                     answer={answer} 
@@ -404,7 +404,7 @@ class App extends Component {
     renderParentMerchant(){
       return(
         <div class="container">
-          <div className="sidenavwhite">
+          <div className="sidenavwhite amazonColorDark amazonText">
                     <div className="container">Basic Details</div> 
                     <hr color="#edf0f"></hr>
                     <div className="container blueColor" >Configure Pricing Strategy</div>
@@ -425,8 +425,8 @@ class App extends Component {
           <button type="button" onClick={(e)=>this.setState({value:"CompMatchStandard",parentMerchant:null,
           CompMatchStandardState:this.state.childAnswers.find(obj => {return obj.stage === "CompMatchStandard"}),
           childAnswers:this.state.childAnswers.filter(obj=>obj.stage !== "CompMatchStandard") })} 
-                          class="btn btn-primary btn-lg left" >Previous</button>
-          <button type="button" onClick={this.onParentMerchantSelection.bind(this)} class="btn btn-primary btn-lg right">Proceed to GL Setup</button>
+                          class="btn btn-primary btn-lg left amazonColorDark" >Previous</button>
+          <button type="button" onClick={this.onParentMerchantSelection.bind(this)} class="btn btn-primary btn-lg right amazonColorDark">Proceed to GL Setup</button>
         </div>
       );
     }
@@ -446,9 +446,9 @@ class App extends Component {
         var addon=this.state.childAnswers.find(obj => {return obj.stage === "AddOnMerchant"});
         return(
           <div class="container">
-            <div class="sidenav text-white   bg-dark" >
-              <div class="card-header">Hola Garvit</div>
-              <div class="card-body">
+            <div class="sidenav text-white   cs-card-txt" >
+              <div class="card-header cs-card-txt">Hola Garvit</div>
+              <div class="card-body cs-card-txt">
                 <h5 class="card-title">I'm Tiffany</h5>
                 <p class="card-text"> See the Summary of your Selection.</p>
               </div>
@@ -474,16 +474,16 @@ class App extends Component {
                       </table>
             </div>
 
-            <button type="button" onClick={this.onSummaryPagePrevious.bind(this)} class="btn btn-primary btn-lg left" >Previous</button>
-            <button type="button" onClick={this.onSummaryPageSelection.bind(this)} class="btn btn-primary btn-lg right">Complete</button>
+            <button type="button" onClick={this.onSummaryPagePrevious.bind(this)} class="btn btn-primary btn-lg left amazonColorDark" >Previous</button>
+            <button type="button" onClick={this.onSummaryPageSelection.bind(this)} class="btn btn-primary btn-lg right amazonColorDark">Complete</button>
           </div>
         );
       } else {
         return(
           <div class="container">
-           <div class="sidenav text-white   bg-dark" >
-              <div class="card-header">Hola Garvit</div>
-              <div class="card-body">
+           <div class="sidenav text-white cs-card-txt" >
+              <div class="card-header cs-card-txt">Hola Garvit</div>
+              <div class="card-body cs-card-txt">
                 <h5 class="card-title">I'm Tiffany</h5>
                 <p class="card-text"> See the Summary of your Selection.</p>
               </div>
@@ -509,8 +509,8 @@ class App extends Component {
             </div>
 
 
-            <button type="button" onClick={this.onSummaryPagePrevious.bind(this)} class="btn btn-primary btn-lg left" >Previous</button>
-            <button type="button" onClick={this.onSummaryPageSelection.bind(this)} class="btn btn-primary btn-lg right">Complete</button>
+            <button type="button" onClick={this.onSummaryPagePrevious.bind(this)} class="btn btn-primary btn-lg left amazonColorDark" >Previous</button>
+            <button type="button" onClick={this.onSummaryPageSelection.bind(this)} class="btn btn-primary btn-lg right amazonColorDark">Complete</button>
           </div>
         );
       }
