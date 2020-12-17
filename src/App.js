@@ -3,6 +3,10 @@ import React, {Component} from 'react';
 import QuestionAnswersTemplate from './Components/QuestionAnswersTemplate';
 import GLSetTable from './Components/GLSetTable';
 import logo from './tiffany.png';
+import image1 from './image1.png';
+import image2 from './image2.png';
+import image3 from './image3.png';
+import image4 from './image4.png';
 
 class App extends Component {
     constructor(props) {
@@ -304,7 +308,9 @@ class App extends Component {
             </div>      
             <div className="container">
                 <div class="boxreduce"></div>
-                <h1> Launching Merchant </h1>
+                <div class="image-style-2 nav-move-left">
+                              <a href="/"><img src={image4}></img></a>
+                </div>
             </div>
         </div>
         
@@ -322,21 +328,27 @@ class App extends Component {
           <div class="container">
             <div class="row">
               <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 col-md-offset-1 boxStyle bg-white amazonBorderColorDark main-page-row">
-                <div>logo here</div>
+                <div class="image-style-1 nav-move-left">
+                              <a href="/"><img src={image1}></img></a>
+                </div>
                 <div className="jumbotron bg-white">
                     <button type="button" onClick={() => this.setState({WelcomePageSelection: "Launch",value:"SelectionPage"})} class="btn btn-primary btn-lg btn-1">Launch</button>
                     <p>Tiffany, your personal assistant will guide you to launch marketplaces, merchants, product groups and more.</p>
                 </div>
               </div>
             <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 boxStyle bg-white amazonBorderColorDark main-page-row">
-              <div>logo here</div>
+              <div class="image-style-1 nav-move-left">
+                              <a href="/"><img src={image2}></img></a>
+                </div>
               <div className="jumbotron bg-white">
                   <button type="button"  onClick={() => this.setState({WelcomePageSelection: "Manage",value:"SelectionPage"})} class="btn btn-primary btn-lg btn-1">Manage policies</button>
                   <p>Want to change the pricing strategy or modify guardrails at an hierarchy level? Let Tiffany help you to add, remove or update policies.</p>
               </div>
             </div>
             <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 boxStyle bg-white amazonBorderColorDark main-page-row">
-              <div>logo here</div>
+              <div class="image-style-1 nav-move-left">
+                              <a href="/"><img src={image3}></img></a>
+                </div>
               <div className="jumbotron bg-white">
                    <button type="button" onClick={() => this.setState({WelcomePageSelection: "Simulate",value:"SelectionPage"})} class="btn btn-primary btn-lg btn-1">Config Playground</button>
                   <p>Recently launched an entity or updated the policy at an hierarchy level? Let Tiffany guide you through our simulation platform-Fortnight.</p>

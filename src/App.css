@@ -96,6 +96,26 @@ h3{
     margin-right: 20px;
 }
 
+.image-style-1{
+  display: flex;
+    justify-content: center;
+    height: 110px; /* or other desired height */
+    width: 80px;
+    overflow: hidden;
+    margin:0 auto;
+    padding-top: 30px !important;
+}
+
+.image-style-2{
+  display: flex;
+    justify-content: center;
+    height: 200px; /* or other desired height */
+    width: 400px;
+    overflow: hidden;
+    margin:0 auto;
+    padding-top: 30px !important;
+    margin-left: 370px !important;
+}
 img {
     flex: none; /* keep aspect ratio */
     max-width: 100%
