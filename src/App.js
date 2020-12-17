@@ -12,19 +12,65 @@ class App extends Component {
           WelcomePageSelection: null,
           marketplace: null,
           merchant: null,
-          listofgls:null,
+          merchantTypeState:null,
+          CompMatchStandardState:null,
+          ConfigsStandardState:null,
+          SelectGLForMerchantState:null,
+          PriceVarianceGLTableState:null,
+          ThresholdGLTableState:null,
+          MonitorGLTableState:null,
+          AddOnMerchantState:null,
           MMGLError:null,
           typeofMerchant:null,
           childAnswers: []
       };
     }
-    addRadioToState(newValue)
+    addRadioToState(newValue) 
     {
         if(newValue.stage === "MerchantType" && newValue.answer === "Standard"){
           this.setState({ childAnswers:[...this.state.childAnswers,newValue], value:"CompMatchStandard" });
         } else if(newValue.stage === "CompMatchStandard" && newValue.answer === "Standard Template"){
           this.setState({ childAnswers:[...this.state.childAnswers,newValue], value:"ConfigsStandard" });
+        }  else if(newValue.stage === "CompMatchStandard" && newValue.answer === "Related Merchant"){
+          this.setState({ childAnswers:[...this.state.childAnswers,newValue], value:"ParentMerchant" });
         }
+    }
+    onPreviousRadioButton(newValue)
+    {
+      if(newValue.stage === "MerchantType"){
+        this.setState({value:"SelectionPage",WelcomePageSelection:"Launch",merchantTypeState:null});
+      } else if(newValue.stage === "CompMatchStandard"){
+          var result = this.state.childAnswers.find(obj => {
+            return obj.stage === "MerchantType"
+          });
+          this.setState({merchantTypeState:result,CompMatchStandardState:null,
+                  value:"MerchantType",childAnswers:this.state.childAnswers.filter(obj=>obj.stage !== "MerchantType")});
+      } else if(newValue.stage === "ConfigsStandard"){
+          var result1 = this.state.childAnswers.find(obj => {
+            return obj.stage === "CompMatchStandard"
+          });
+          this.setState({CompMatchStandardState:result1 , ConfigsStandardState:null,
+                  value:"CompMatchStandard",childAnswers:this.state.childAnswers.filter(obj=>obj.stage !== "CompMatchStandard")});
+      } else if(newValue.stage === "SelectGLForMerchant"){
+        var prevCompMatch = this.state.childAnswers.find(obj => {
+          return obj.stage === "CompMatchStandard"
+        });
+        if(prevCompMatch.answer === "Standard Template"){
+          var result2a = this.state.childAnswers.find(obj => {
+            return obj.stage === "ConfigsStandard"
+          });
+          this.setState({ConfigsStandardState:result2a , SelectGLForMerchantState:null,
+                      value:"ConfigsStandard",childAnswers:this.state.childAnswers.filter(obj=>obj.stage !== "ConfigsStandard")});
+        } else {
+          this.setState({value:"ParentMerchant", SelectGLForMerchantState:null});
+        }     
+      } else if(newValue.stage === "AddOnMerchant"){
+        var result3 = this.state.childAnswers.find(obj => {
+          return obj.stage === "MonitorGLTable"
+        });
+        this.setState({MonitorGLTableState:result3 , AddOnMerchantState:null,
+                    value:"MonitorGLTable",childAnswers:this.state.childAnswers.filter(obj=>obj.stage !== "MonitorGLTable")});
+      }
     }
     addCheckboxToState(newValue)
     {
@@ -34,7 +80,31 @@ class App extends Component {
         } else if(newValue.stage === "SelectGLForMerchant")
         {
           this.setState({ childAnswers:[...this.state.childAnswers,newValue], value:"PriceVarianceGLTable" });
+        } else if(newValue.stage === "AddOnMerchant")
+        {
+          this.setState({ childAnswers:[...this.state.childAnswers,newValue], value:"FinishPage" });
         }
+    }
+    onPreviousGLTable(newValue){
+      if(newValue.stage === "PriceVarianceGLTable"){
+        var result = this.state.childAnswers.find(obj => {
+          return obj.stage === "SelectGLForMerchant"
+        });
+        this.setState({ SelectGLForMerchantState:result , PriceVarianceGLTableState:null,
+          value:"SelectGLForMerchant",childAnswers:this.state.childAnswers.filter(obj=>obj.stage !== "SelectGLForMerchant") });
+      } else if(newValue.stage === "ThresholdGLTable"){
+        var result1 = this.state.childAnswers.find(obj => {
+          return obj.stage === "PriceVarianceGLTable"
+        });
+        this.setState({ PriceVarianceGLTableState:result1 ,ThresholdGLTableState:null,
+          value:"PriceVarianceGLTable",childAnswers:this.state.childAnswers.filter(obj=>obj.stage !== "PriceVarianceGLTable") });
+      } else if(newValue.stage === "MonitorGLTable"){
+        var result2 = this.state.childAnswers.find(obj => {
+          return obj.stage === "ThresholdGLTable"
+        });
+        this.setState({ ThresholdGLTableState:result2 , MonitorGLTableState:null,
+          value:"ThresholdGLTable",childAnswers:this.state.childAnswers.filter(obj=>obj.stage !== "ThresholdGLTable") });
+      }
     }
     addTableToState(newValue)
     {
@@ -51,75 +121,130 @@ class App extends Component {
       var content;
       if(this.state.value==="WelcomePage"){
         content = this.renderWelcomePage();
-          // content=<QuestionAnswersTemplate question={'What is your name'} answer={['garvit','irfan','azhar']} type={'checkbox'} addRadioToState={this.addRadioToState.bind(this)} />;
-          // content= <GLSetTable question={'What is your name'}
-          //               type={'priceVariance'}
-          //               rowHeadings={['Apparel','Books','Shoes']}
-          //               columnHeadings={['Field1','Field2','Field3','Field4']}
-          //               answer={[ [1,2,3,4], [5,6,7,8], [9,10,11,12] ]}
-          // />;
       } else if(this.state.value==="SelectionPage" && this.state.WelcomePageSelection==="Launch"){
         content= this.renderSelectionPage();
       } else if(this.state.value==="MerchantType" && this.state.WelcomePageSelection==="Launch"){
+        const {merchantTypeState}= this.state;
+        const answer=['Standard','3rd Party','Regional'];
         content= <QuestionAnswersTemplate 
                     question={'What type of Merchant is this ? '} 
-                    answer={['3rd Party','Standard','Regional']} 
+                    answer={answer} 
                     type={'radio'} 
+                    defaultRadiovalue={merchantTypeState?answer.indexOf(merchantTypeState.answer):0}
                     stage="MerchantType"
                     nextbuttonValue="Next"
                     addRadioToState={this.addRadioToState.bind(this)} 
                     addCheckboxToState={this.addCheckboxToState.bind(this)}
+                    onPreviousRadioButton={this.onPreviousRadioButton.bind(this)}
                   />;
       }  else if(this.state.value==="CompMatchStandard" && this.state.WelcomePageSelection==="Launch"){
+        const {CompMatchStandardState}= this.state;
+        const answer=['Standard Template','Related Merchant','Comp Match with related merchant as fall back'];
         content= <QuestionAnswersTemplate 
                     question={'Select the Comp Match strategy for this Merchant ? '} 
-                    answer={['Standard Template','Related Merchant','Comp Match with related merchant as fall back']} 
+                    answer={answer} 
                     description={['Description: Recommends min(CMT,FMA) competitor input',
                                   'Description: Inherits the price without any filter from parent merchant',
                                   'Description: Price will be recommended at min(CMT,FMA). In absence of input price will be inherited from parent MKPL']}
                     type={'radio'} 
+                    defaultRadiovalue={CompMatchStandardState?answer.indexOf(CompMatchStandardState.answer):0}
                     stage="CompMatchStandard"
-                    nextbuttonValue="Configure Related Merchant"
+                    nextbuttonValue="Configure Standard Template"
                     addRadioToState={this.addRadioToState.bind(this)} 
                     addCheckboxToState={this.addCheckboxToState.bind(this)}
+                    onPreviousRadioButton={this.onPreviousRadioButton.bind(this)}
                   />;
       } else if(this.state.value==="ConfigsStandard" && this.state.WelcomePageSelection==="Launch"){
+        const {ConfigsStandardState}= this.state;
+        const answer=['External Comp match','Internal Comp match','FBA Cede'];
         content= <QuestionAnswersTemplate 
                     question={'Select Cofigs for Standard Template  '} 
-                    answer={['External Comp match','Internal Comp match','FBA Cede']} 
-                    description={['Description: Recommends min(CMT,FMA) competitor input',
-                                  'Description: Inherits the price without any filter from parent merchant',
-                                  'Description: Price will be recommended at min(CMT,FMA). In absence of input price will be inherited from parent MKPL']}
+                    answer={answer} 
                     type={'checkbox'} 
                     stage="ConfigsStandard"
+                    defaultCheckboxValues={ConfigsStandardState?ConfigsStandardState.answer.map(a=> answer.indexOf(a)):[0,1,2]}
                     nextbuttonValue="Proceed to GL Setup"
                     addRadioToState={this.addRadioToState.bind(this)}
                     addCheckboxToState={this.addCheckboxToState.bind(this)}
+                    onPreviousRadioButton={this.onPreviousRadioButton.bind(this)}
                   />;
       } else if(this.state.value==="SelectGLForMerchant" && this.state.WelcomePageSelection==="Launch"){
+        const{SelectGLForMerchantState}=this.state;
+        const answer= ['Apparel','Books','Home Decor','Vehicles','Stationary'];
         content= <QuestionAnswersTemplate 
                     question={'Select the GLs for this Merchant  '} 
-                    answer={['Apparel','Books','Home Decor','Vehicles','Stationary']} 
+                    answer={answer} 
                     type={'checkbox'} 
+                    defaultCheckboxValues={SelectGLForMerchantState?SelectGLForMerchantState.answer.map(a=>answer.indexOf(a)):[0,1]}
                     stage="SelectGLForMerchant"
                     nextbuttonValue="Next"
                     addCheckboxToState={this.addCheckboxToState.bind(this)} 
                     addRadioToState={this.addRadioToState.bind(this)}
+                    onPreviousRadioButton={this.onPreviousRadioButton.bind(this)}
                   />;
       } else if(this.state.value==="PriceVarianceGLTable" && this.state.WelcomePageSelection==="Launch"){
+        const{PriceVarianceGLTableState}=this.state;
+        const answer= [ [1,2,3,4], 
+                        [5,6,7,8], 
+                        [9,10,11,12] ];
         content= <GLSetTable question={'Enter the Price Variance for Selected GLs'}
-                        type={'priceVariance'}
+                        type={'PriceVarianceGLTable'}
                         stage={'PriceVarianceGLTable'}
                         rowHeadings={['Apparel','Books','Shoes']}
                         columnHeadings={['Field1','Field2','Field3','Field4']}
-                        answer={[ [1,2,3,4], 
-                                  [5,6,7,8], 
-                                  [9,10,11,12] ]}
+                        answer={PriceVarianceGLTableState? PriceVarianceGLTableState.answer: answer}
                         nextbuttonValue="Submit and Proceed to Configure CP Caps"
                         addTableToState={this.addTableToState.bind(this)}
+                        onPreviousGLTable={this.onPreviousGLTable.bind(this)}
                   />;
-      }   
-      //end of above if
+      } else if(this.state.value==="ThresholdGLTable" && this.state.WelcomePageSelection==="Launch"){
+        const{ThresholdGLTableState}=this.state;
+        const answer= [ [120,230], 
+                        [500,600], 
+                        [90,110] ];
+        content= <GLSetTable question={'Enter the CP cap thresholds for Selected GLs'}
+                        type={'ThresholdGLTable'}
+                        stage={'ThresholdGLTable'}
+                        rowHeadings={['Apparel','Books','Shoes']}
+                        columnHeadings={['Field1','Field2']}
+                        answer={ThresholdGLTableState?ThresholdGLTableState.answer:answer}
+                        nextbuttonValue="Submit and Proceed to Configure Email notifications"
+                        addTableToState={this.addTableToState.bind(this)}
+                        onPreviousGLTable={this.onPreviousGLTable.bind(this)}
+                  />;
+      }  else if(this.state.value==="MonitorGLTable" && this.state.WelcomePageSelection==="Launch"){
+        const{MonitorGLTableState}=this.state;
+        const answer = [ ['apparel@gmail.com',30], 
+                         ['books@gmail.com',60], 
+                         ['shoes@gmail.com',11] ];
+        content= <GLSetTable question={'Configure the demand monitors for Selected GLs'}
+                        type={'MonitorGLTable'}
+                        stage={'MonitorGLTable'}
+                        rowHeadings={['Apparel','Books','Shoes']}
+                        columnHeadings={['Email','Field2']}
+                        answer={MonitorGLTableState?MonitorGLTableState.answer:answer}
+                        nextbuttonValue="Submit and Proceed to Configure add-on to enable"
+                        addTableToState={this.addTableToState.bind(this)}
+                        onPreviousGLTable={this.onPreviousGLTable.bind(this)}
+                  />;
+      }  else if(this.state.value==="AddOnMerchant" && this.state.WelcomePageSelection==="Launch"){
+        content= <QuestionAnswersTemplate 
+                    question={'Select any add-ons that you would like to enable for the merchant '} 
+                    answer={['Phase 2 Cede','Teen','PPU','H/B ASIN CP aware','MAP as floor','ECF as floor']} 
+                    type={'checkbox'} 
+                    stage="AddOnMerchant"
+                    nextbuttonValue="Next"
+                    addCheckboxToState={this.addCheckboxToState.bind(this)} 
+                    addRadioToState={this.addRadioToState.bind(this)}
+                    onPreviousRadioButton={this.onPreviousRadioButton.bind(this)}
+                    onPreviousGLTable={this.onPreviousGLTable.bind(this)}
+                  />;
+      }  else if(this.state.value==="FinishPage" && this.state.WelcomePageSelection==="Launch"){
+        content= this.renderFinishPage();
+      }  else if(this.state.value==="ParentMerchant" && this.state.WelcomePageSelection==="Launch"){
+        content= this.renderParentMerchant();
+      }              
+      //end of above if 
       return (
             <div className="App">
               <div className="box"></div>
@@ -182,22 +307,24 @@ class App extends Component {
               <h3 className="left" >Select Merchant from the Marketplace to Lauch</h3>
               
              <select onChange={(event) => this.setState({marketplace:event.target.value})} class="browser-default custom-select custom-select-lg mb-3">
-                  <option disabled selected hidden>Select Marketplace</option>
-                  <option value="US">US</option>
-                  <option value="Amazon Fresh">Amazon Fresh</option>
-                  <option value="Mendel">Mendel</option>
+                  <option disabled selected={this.state.marketplace?false:true} hidden>Select Marketplace</option>
+                  <option value="US" selected={this.state.marketplace === "US" ?true:false }>US</option>
+                  <option value="Amazon Fresh" selected={this.state.marketplace === "Amazon Fresh" ?true:false }>Amazon Fresh</option>
+                  <option value="Mendel" selected={this.state.marketplace === "Mendel" ?true:false }>Mendel</option>
               </select>
               <select onChange={(event) => this.setState({merchant:event.target.value})} class="browser-default custom-select custom-select-lg mb-3">
-                  <option disabled selected hidden>Select Merchant</option>
-                  <option value="Amazon Fresh">Amazon Fresh</option>
-                  <option value="Amazon Lite">Amazon Lite</option>
-                  <option value="Amazon GO">Amazon GO</option>
+                  <option disabled selected={this.state.merchant?false:true} hidden>Select Merchant</option>
+                  <option value="Amazon Fresh" selected={this.state.merchant === "Amazon Fresh" ?true:false }>Amazon Fresh</option>
+                  <option value="Amazon Lite" selected={this.state.merchant === "Amazon Lite" ?true:false }>Amazon Lite</option>
+                  <option value="Amazon GO" selected={this.state.merchant === "Amazon GO" ?true:false }>Amazon GO</option>
               </select>
-              <button type="button" onClick={this.onSelection.bind(this)} class="btn btn-primary btn-lg" >Next</button>
+              <button type="button" onClick={(e)=>this.setState({value:"WelcomePage",marketplace:null,merchant:null})} class="btn btn-primary btn-lg left" >Previous</button>
+              <button type="button" onClick={this.onSelection.bind(this)} class="btn btn-primary btn-lg right" >Next</button>
             </div>
         </div> 
       );
     }
+    
     onSelection(){
       const {marketplace,merchant} = this.state;
       if(marketplace && merchant){
@@ -206,22 +333,54 @@ class App extends Component {
         this.setState({MMGLError:"All the fields need to be selceted"});
       }
     }  
-    renderGL(){
+
+    renderFinishPage(){
+      return(
+          <div className="container">
+            <div className="jumbotron">
+                <h4 color="green">Done!</h4>
+                <div className="box"></div>
+                <h3 color="green">Merchant has been successfully launched.</h3>
+                <hr color="green"></hr>
+            </div>
+          </div>
+      );
+    }
+    renderParentMerchant(){
       return(
         <div class="container">
-          <div>
-                <h3>question ?</h3>   
+          <div className="sidenavwhite">
+                    <div className="container">Basic Details</div> 
+                    <hr color="#edf0f"></hr>
+                    <div className="container blueColor" >Configure Pricing Strategy</div>
+                    <hr color="#edf0f"></hr>
+                    <div className="container">Setup GLs</div>
+                    <hr color="#edf0f"></hr>
+                    <div className="container" >Finish up!</div>
+            </div>
+          <div className="container">
+              <h3 className="left">Select the parent merchant</h3>   
           </div>
-          <select onChange={(event) => this.setState({marketplace:event.target.value})} class="browser-default custom-select custom-select-lg mb-3">
-              <option disabled selected hidden>Select ParentMerchant from this dropdown</option>
-              <option value="1">US</option>
-              <option value="2">Amazon Fresh</option>
-              <option value="3">Mendel</option>
+          <select onChange={(event) => this.setState({parentMerchant:event.target.value})} class="browser-default custom-select custom-select-lg mb-3">
+              <option disabled selected={this.state.parentMerchant?false:true} hidden>Select the parent merchant from this dropdown</option>
+              <option value="US" selected={this.state.parentMerchant === "US" ?true:false }>US</option>
+              <option value="Amazon Fresh" selected={this.state.parentMerchant === "Amazon Fresh" ?true:false }>Amazon Fresh</option>
+              <option value="Mendel" selected={this.state.parentMerchant === "Mendel" ?true:false }>Mendel</option>
           </select>
-          <button type="button" onClick={this.onSelection.bind(this)} class="btn btn-primary btn-lg" >Proceed to GL Setup</button>
+          <button type="button" onClick={(e)=>this.setState({value:"CompMatchStandard",parentMerchant:null,
+          CompMatchStandardState:this.state.childAnswers.find(obj => {return obj.stage === "CompMatchStandard"}),
+          childAnswers:this.state.childAnswers.filter(obj=>obj.stage !== "CompMatchStandard") })} 
+                          class="btn btn-primary btn-lg left" >Previous</button>
+          <button type="button" onClick={this.onParentMerchantSelection.bind(this)} class="btn btn-primary btn-lg right">Proceed to GL Setup</button>
         </div>
       );
     }
+    onParentMerchantSelection(){
+      const {parentMerchant} = this.state;
+      if(parentMerchant){
+        this.setState({value:"SelectGLForMerchant"});
+      }
+    }  
 }
 
 export default App;
