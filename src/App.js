@@ -161,6 +161,7 @@ class App extends Component {
                                   'Description: Will inherit all pricing policies from parent merchant including Price',
                                   'Description: Min(external,internal) competitor price recommended as Final price, in absence of competitor will inherit from parent merchant']}
                     type={'radio'} 
+                    info={"Most Retail merchants choose the Standard Template strategy"}
                     defaultRadiovalue={CompMatchStandardState?answer.indexOf(CompMatchStandardState.answer):0}
                     stage="CompMatchStandard"
                     nextbuttonValue={CompMatchStandardState?"Configure "+CompMatchStandardState.answer:"Configure Standard Template"}
@@ -178,6 +179,7 @@ class App extends Component {
                                   'Description: FMA recommended featured offer price will be used to derive price',
                                   'Description: We will match FBA Seller recommended by FMA, and cede featured offer where applicable']}
                     type={'checkbox'} 
+                    info={"80% of Retail merchants choose External Comp match, Internal Comp match, FBA Cede"}
                     stage="ConfigsStandard"
                     defaultCheckboxValues={ConfigsStandardState?ConfigsStandardState.answer.map(a=> answer.indexOf(a)):[0,1,2]}
                     nextbuttonValue="Proceed to GL Setup"
@@ -193,6 +195,7 @@ class App extends Component {
                     question={'Select the GLs for this Merchant'} 
                     answer={answer} 
                     type={'checkbox'} 
+                    info={"I've pre-selected the most commonly used GLs"}
                     defaultCheckboxValues={SelectGLForMerchantState?SelectGLForMerchantState.answer.map(a=>answer.indexOf(a)):[0,1]}
                     stage="SelectGLForMerchant"
                     nextbuttonValue="Next"
@@ -207,9 +210,10 @@ class App extends Component {
                         ["9.09","10%","11.00","12%"] ];
         content= <GLSetTable question={'Enter the Price Variance for Selected GLs'}
                         type={'PriceVarianceGLTable'}
+                        info={"Standardized values have been filled. In most cases, these are the ideal values."}
                         stage={'PriceVarianceGLTable'}
                         rowHeadings={['Apparel','Shoes','Books']}
-                        columnHeadings={['increase by $,','increase by %','decrease by $','decrease by %']}
+                        columnHeadings={['increase by $','increase by %','decrease by $','decrease by %']}
                         answer={PriceVarianceGLTableState? PriceVarianceGLTableState.answer: answer}
                         nextbuttonValue="Submit and Proceed to Configure CP Caps"
                         addTableToState={this.addTableToState.bind(this)}
@@ -222,6 +226,7 @@ class App extends Component {
                         ["91.12","75%"] ];
         content= <GLSetTable question={'Enter the CP cap thresholds for Selected GLs'}
                         type={'ThresholdGLTable'}
+                        info={"Standardized values have been filled. In most cases, these are the ideal values."}
                         stage={'ThresholdGLTable'}
                         rowHeadings={['Apparel','Shoes','Books']}
                         columnHeadings={['Margin in $','Margin in %']}
@@ -238,6 +243,7 @@ class App extends Component {
         content= <GLSetTable question={'Configure the demand monitors for Selected GLs'}
                         type={'MonitorGLTable'}
                         stage={'MonitorGLTable'}
+                        info={"I have followed a standard email format but you must review it before proceeding."}
                         rowHeadings={['Apparel','Books','Shoes']}
                         columnHeadings={['Spike','Kill']}
                         answer={MonitorGLTableState?MonitorGLTableState.answer:answer}
@@ -499,7 +505,7 @@ class App extends Component {
               </div>
             </div>
             <div className="container">
-                <h3 className="left">Here's the Summary of Merchant Lauch</h3>   
+                <h3 className="left">Here's the Summary of Merchant Launch</h3>   
             </div>
             <br/>
             <div class="table-responsive">

@@ -12,6 +12,7 @@ class QuestionAnswersTemplate extends Component{
             description:props.description,
             question: props.question,
             answer:props.answer,
+            info:props.info,
             addRadioToState:props.addRadioToState,
             addCheckboxToState:props.addCheckboxToState,
             onPreviousRadioButton:props.onPreviousRadioButton,
@@ -31,6 +32,7 @@ class QuestionAnswersTemplate extends Component{
             description:this.props.description,
             question: this.props.question,
             answer: this.props.answer,
+            info:this.props.info,
             addRadioToState: this.props.addRadioToState,
             addCheckboxToState: this.props.addCheckboxToState,
             onPreviousRadioButton:this.props.onPreviousRadioButton,
@@ -66,9 +68,14 @@ class QuestionAnswersTemplate extends Component{
                 <hr color="#edf0f"></hr>
                 <div className="container" >
                     <h3 className="left ">{question}</h3> 
+                     
                 </div>
+                
                 <br/>
                 <div className="container">
+                {this.state.info?<br/>:null}
+                {this.state.info?<p class="left" style={{color:'green'}}>{this.state.info}</p>:null}
+                {this.state.info?<br/>:null}
                     {lis}
                 </div>
                 <div className="boxwell"></div>
@@ -124,10 +131,13 @@ class QuestionAnswersTemplate extends Component{
             <div className="container">
                 <hr color="#edf0f"></hr>
                 <div className="container">
-                    <h3 className="left">{question}</h3>   
+                    <h3 className="left">{question}</h3>  
                 </div>
                 <br/>
                 <div className="container">
+                {this.state.info?<br/>:null}
+                {this.state.info?<p class="left" style={{color:'green'}}>{this.state.info}</p>:null}
+                {this.state.info?<br/>:null}
                     {lis}
                 </div>
                 <br/>

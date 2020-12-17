@@ -9,6 +9,7 @@ class GLSetTable extends Component{
           rowHeadings: props.rowHeadings,
           columnHeadings: props.columnHeadings,
           answer:props.answer,
+          info:props.info,
           nextbuttonValue:props.nextbuttonValue,
           addTableToState:props.addTableToState,
           onPreviousGLTable:props.onPreviousGLTable
@@ -24,6 +25,7 @@ class GLSetTable extends Component{
           rowHeadings: this.props.rowHeadings,
           columnHeadings: this.props.columnHeadings,
           answer:this.props.answer,
+          info:this.props.info,
           nextbuttonValue:this.props.nextbuttonValue,
           addTableToState:this.props.addTableToState,
           onPreviousGLTable:this.props.onPreviousGLTable
@@ -80,6 +82,7 @@ class GLSetTable extends Component{
             </div>
             <br/>
             <div className="container">
+            <br/><p class="left" style={{color:'green'}}>{this.state.info}</p><br/>
                 <div class="table-responsive">
                       <table class="table table-hover">
                         <thead>
