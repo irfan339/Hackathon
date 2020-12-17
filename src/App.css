@@ -28,7 +28,7 @@
   width: 180px;
   position: fixed;
   z-index: 1;
-  top: 270px;
+  top: 210px;
   left: 100px;
   background: rgb(35, 21, 233);
   color: #edf0f3;
@@ -67,7 +67,12 @@
 .btn-txt{
     
 }
-
+.nav-move-left{
+  margin-left:300px;
+}
+h3{
+  margin-left:0;
+}
 .btn-search:hover{
   background-color : #3c3535 !important;
   border-color: #3c3535 !important;

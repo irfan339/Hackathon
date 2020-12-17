@@ -147,7 +147,7 @@ class App extends Component {
         const {CompMatchStandardState}= this.state;
         const answer=['Standard Template','Related Merchant','Comp Match with related merchant as fall back'];
         content= <QuestionAnswersTemplate 
-                    question={'Select the Comp Match strategy for this Merchant ? '} 
+                    question={'Select the Comp match strategy for this Merchant'} 
                     answer={answer} 
                     description={['Description: Recommends min(CMT,FMA) competitor input',
                                   'Description: Inherits the price without any filter from parent merchant',
@@ -164,7 +164,7 @@ class App extends Component {
         const {ConfigsStandardState}= this.state;
         const answer=['External Comp match','Internal Comp match','FBA Cede'];
         content= <QuestionAnswersTemplate 
-                    question={'Select Cofigs for Standard Template  '} 
+                    question={'Select Configs for Standard Template  '} 
                     answer={answer} 
                     type={'checkbox'} 
                     stage="ConfigsStandard"
@@ -178,7 +178,7 @@ class App extends Component {
         const{SelectGLForMerchantState}=this.state;
         const answer= ['Apparel','Books','Home Decor','Vehicles','Shoes'];
         content= <QuestionAnswersTemplate 
-                    question={'Select the GLs for this Merchant  '} 
+                    question={'Select the GLs for this Merchant'} 
                     answer={answer} 
                     type={'checkbox'} 
                     defaultCheckboxValues={SelectGLForMerchantState?SelectGLForMerchantState.answer.map(a=>answer.indexOf(a)):[0,1]}
@@ -229,7 +229,7 @@ class App extends Component {
                         rowHeadings={['Apparel','Books','Shoes']}
                         columnHeadings={['Email','Field2']}
                         answer={MonitorGLTableState?MonitorGLTableState.answer:answer}
-                        nextbuttonValue="Submit and Proceed to Configure add-on to enable"
+                        nextbuttonValue="Submit and Proceed to enable add-ons"
                         addTableToState={this.addTableToState.bind(this)}
                         onPreviousGLTable={this.onPreviousGLTable.bind(this)}
                   />;
@@ -241,7 +241,7 @@ class App extends Component {
                     answer={answer} 
                     type={'checkbox'} 
                     stage="AddOnMerchant"
-                    defaultCheckboxValues={AddOnMerchantState?AddOnMerchantState.answer.map(a=> answer.indexOf(a)):[]}
+                    defaultCheckboxValues={AddOnMerchantState?AddOnMerchantState.answer.map(a=> answer.indexOf(a)):[0,1,2,3,4,5]}
                     nextbuttonValue="Next"
                     addCheckboxToState={this.addCheckboxToState.bind(this)} 
                     addRadioToState={this.addRadioToState.bind(this)}
@@ -258,7 +258,7 @@ class App extends Component {
       //end of above if 
       return (
             <div className="App">
-              <div className="box"></div>
+              
               {this.renderAppTitle()}
               <div className="box"></div>
               {content}
@@ -269,18 +269,18 @@ class App extends Component {
     renderAppTitle(){
       return(
         <div>
-          <div className="container title-margin">
+          <div className=" title-margin">
                 <nav class="navbar navbar-expand-lg navbar-dark amazonColorDark">
                     <div class="container-fluid">
                       
-                      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                      <button class="navbar-toggler " type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                       </button>
                       
                         
-                      <div class="image-style">
+                      <div class="image-style nav-move-left">
                               <a href="/"><img src={logo}></img></a>
-                            </div>
+                      </div>
                       <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                           <li class="nav-item">
@@ -338,8 +338,8 @@ class App extends Component {
             <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 boxStyle bg-white amazonBorderColorDark main-page-row">
               <div>logo here</div>
               <div className="jumbotron bg-white">
-                   <button type="button" onClick={() => this.setState({WelcomePageSelection: "Simulate",value:"SelectionPage"})} class="btn btn-primary btn-lg btn-1">Simulate</button>
-                  <p>Recently launched an entity or updated the policy at an hierarchy level? Let Tiffany guide you to our simulation platform-Fortnight.</p>
+                   <button type="button" onClick={() => this.setState({WelcomePageSelection: "Simulate",value:"SelectionPage"})} class="btn btn-primary btn-lg btn-1">Config Playground</button>
+                  <p>Recently launched an entity or updated the policy at an hierarchy level? Let Tiffany guide you through our simulation platform-Fortnight.</p>
               </div>
             </div>
           </div>
@@ -359,7 +359,7 @@ class App extends Component {
             
             <div className="container">
               
-              <h3 className="left" >Select Merchant from the Marketplace to Lauch</h3>
+              <h3 className="left" >What  would you like to Lauch</h3>
               
              <select onChange={(event) => this.setState({marketplace:event.target.value})} class="browser-default custom-select custom-select-lg mb-3">
                   <option disabled selected={this.state.marketplace?false:true} hidden>Select Marketplace</option>
@@ -372,6 +372,12 @@ class App extends Component {
                   <option value="Amazon Fresh" selected={this.state.merchant === "Amazon Fresh" ?true:false }>Amazon Fresh</option>
                   <option value="Amazon Lite" selected={this.state.merchant === "Amazon Lite" ?true:false }>Amazon Lite</option>
                   <option value="Amazon GO" selected={this.state.merchant === "Amazon GO" ?true:false }>Amazon GO</option>
+              </select>
+              <select  class="browser-default custom-select custom-select-lg mb-3">
+                  <option disabled selected hidden>Select Lister</option>
+              </select>
+              <select  class="browser-default custom-select custom-select-lg mb-3">
+                  <option disabled selected hidden>Select GL</option>
               </select>
               <button type="button" onClick={(e)=>this.setState({value:"WelcomePage",marketplace:null,merchant:null})} class="btn btn-primary btn-lg left amazonColorDark" >Previous</button>
               <button type="button" onClick={this.onSelection.bind(this)} class="btn btn-primary btn-lg right amazonColorDark" >Next</button>
@@ -395,7 +401,7 @@ class App extends Component {
             <div className="jumbotron amazonColorWheat">
                 <h4 color="green">Done!</h4>
                 <div className="box"></div>
-                <h3 color="green">Merchant has been successfully launched.</h3>
+                <h3 color="green">Workflow has been initiated to lauch the merchant.</h3>
                 <hr color="green"></hr>
             </div>
           </div>
@@ -454,7 +460,7 @@ class App extends Component {
               </div>
             </div>
             <div className="container">
-                <h3 className="left">Summary</h3>   
+                <h3 className="left">Here's the Summary of Merchant Lauch</h3>   
             </div>
             <br/>
             <div class="table-responsive">

@@ -46,8 +46,8 @@ class QuestionAnswersTemplate extends Component{
             lis.push(<div class="custom-control custom-radio left"  >
                         <input type="radio" class="custom-control-input" id={i} value={i} name="Radios" checked={i===this.state.defaultRadiovalue}
                         onChange={(event) => {this.state.stage === "CompMatchStandard"?
-                                            this.setState({defaultRadiovalue: event.target.value,nextbuttonValue:"Configure "+this.state.answer[event.target.value]}):
-                                            this.setState({defaultRadiovalue: event.target.value})
+                                            this.setState({defaultRadiovalue: Number(event.target.value),nextbuttonValue:"Configure "+this.state.answer[event.target.value]}):
+                                            this.setState({defaultRadiovalue: Number(event.target.value)})
                                             }}/>
                         <label class="custom-control-label" for={i}>{answers[i]}</label>
                      </div>    
@@ -65,7 +65,7 @@ class QuestionAnswersTemplate extends Component{
             <div className="container">
                 <hr color="#edf0f"></hr>
                 <div className="container" >
-                    <h3 className="left">{question} </h3>   
+                    <h3 className="left ">{question}</h3> <span class="badge badge-pill badge-info small">i</span>
                 </div>
                 <br/>
                 <div className="container">
