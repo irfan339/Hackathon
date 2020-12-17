@@ -82,7 +82,7 @@ class GLSetTable extends Component{
             </div>
             <br/>
             <div className="container">
-            <br/><p class="left" style={{color:'green'}}>{this.state.info}</p><br/>
+            <br/><div class="alert alert-success" role="alert">{this.state.info}</div>
                 <div class="table-responsive">
                       <table class="table table-hover">
                         <thead>

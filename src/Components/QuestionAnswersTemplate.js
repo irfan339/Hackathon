@@ -44,7 +44,6 @@ class QuestionAnswersTemplate extends Component{
     renderRadioButton(question, answers){
         var lis = [];
         for(var i = 0; i < answers.length ; i++) {
-            lis.push(<br/>);
             lis.push(<div class="custom-control custom-radio left"  >
                         <input type="radio" class="custom-control-input" id={i} value={i} name="Radios" checked={i===this.state.defaultRadiovalue}
                         onChange={(event) => {this.state.stage === "CompMatchStandard"?
@@ -55,13 +54,15 @@ class QuestionAnswersTemplate extends Component{
                      </div>    
                     );
             lis.push(<br/>);
+            
             if(this.props.stage === "MerchantType" || this.props.stage === "CompMatchStandard"){
                 lis.push(<div className="container">
                             <label className="left">{"["+this.props.description[i]+"]"}</label>
                         </div>
                     );
                 lis.push(<br/>);
-            }      
+            }     
+            lis.push(<br/>); 
         }   
         return (
             <div className="container">
@@ -73,9 +74,8 @@ class QuestionAnswersTemplate extends Component{
                 
                 <br/>
                 <div className="container">
-                {this.state.info?<br/>:null}
-                {this.state.info?<p class="left" style={{color:'green'}}>{this.state.info}</p>:null}
-                {this.state.info?<br/>:null}
+                <br/>
+                {this.state.info?<div class="alert alert-success" role="alert">{this.state.info}</div>:null}
                     {lis}
                 </div>
                 <div className="boxwell"></div>
@@ -103,7 +103,6 @@ class QuestionAnswersTemplate extends Component{
     //Completed above Radiobutton Code
     renderCheckbox(question, answers){
         var lis = [];
-        lis.push(<br/>);
         for(var i = 0; i < answers.length ; i++) {  
             lis.push(<div class="custom-control custom-checkbox left">
                         <input type="checkbox" class="custom-control-input" id={i} value={i} name="checboxes" 
@@ -135,9 +134,8 @@ class QuestionAnswersTemplate extends Component{
                 </div>
                 <br/>
                 <div className="container">
-                {this.state.info?<br/>:null}
-                {this.state.info?<p class="left" style={{color:'green'}}>{this.state.info}</p>:null}
-                {this.state.info?<br/>:null}
+                <br/>
+                {this.state.info?<div class="alert alert-success" role="alert">{this.state.info}</div>:null}
                     {lis}
                 </div>
                 <br/>
