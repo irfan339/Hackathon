@@ -125,7 +125,7 @@ class App extends Component {
         content= this.renderSelectionPage();
       } else if(this.state.value==="MerchantType" && this.state.WelcomePageSelection==="Launch"){
         const {merchantTypeState}= this.state;
-        const answer=['Standard','3rd Party','Regional'];
+        const answer=['Standard','3rd Party','Lister'];
         content= <QuestionAnswersTemplate 
                     question={'What type of Merchant is this ? '} 
                     answer={answer} 
@@ -149,7 +149,7 @@ class App extends Component {
                     type={'radio'} 
                     defaultRadiovalue={CompMatchStandardState?answer.indexOf(CompMatchStandardState.answer):0}
                     stage="CompMatchStandard"
-                    nextbuttonValue="Configure Standard Template"
+                    nextbuttonValue={CompMatchStandardState?"Configure "+CompMatchStandardState.answer:"Configure Standard Template"}
                     addRadioToState={this.addRadioToState.bind(this)} 
                     addCheckboxToState={this.addCheckboxToState.bind(this)}
                     onPreviousRadioButton={this.onPreviousRadioButton.bind(this)}
@@ -257,9 +257,40 @@ class App extends Component {
     }
     renderAppTitle(){
       return(
-        <div className="container">
+        <div>
+          <div className="container">
+                <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                    <div class="container-fluid">
+                      
+                      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                      </button>
+                      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                          <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="/">Home</a>
+                          </li>
+                          <li class="nav-item">
+                            <a class="nav-link active"  href="https://stackoverflow.com/">About</a>
+                          </li>
+                          <li class="nav-item">
+                            <a class="nav-link active" href="https://www.youtube.com/">CTI</a>
+                          </li>
+                        </ul>
+                        <form class="d-flex fright">
+                          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
+                          
+                          <button class="btn btn-outline-success" type="submit">Search</button>
+                        </form>
+                      </div>
+                    </div>
+                  </nav>
+            </div>      
+            <div className="container">
                 <h1> Launching Merchant </h1>
+            </div>
         </div>
+        
       );
     }
 
@@ -388,6 +419,10 @@ class App extends Component {
         this.setState({value:"SelectGLForMerchant"});
       }
     }  
+
+    renderSummaryPage(){
+      
+    }
 }
 
 export default App;
