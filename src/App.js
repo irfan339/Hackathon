@@ -439,7 +439,7 @@ class App extends Component {
             <div className="jumbotron amazonColorWheat">
                 <h4 color="green">Done!</h4>
                 <div className="box"></div>
-                <h3 color="green">Workflow has been initiated to lauch the merchant.</h3>
+                <h3 color="green">Workflow has been initiated to launch the merchant.</h3>
                 <hr color="green"></hr>
             </div>
           </div>
